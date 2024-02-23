@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.serialization)
 }
 
 kotlin {
@@ -15,7 +16,7 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -26,12 +27,14 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
-        
+
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -40,6 +43,17 @@ kotlin {
             implementation(compose.ui)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.content.negotiation)
+            implementation(libs.ktor.json)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.serialization)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
     }
 }
